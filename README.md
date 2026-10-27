@@ -7,7 +7,7 @@
 ![Hypervisor](https://img.shields.io/badge/VirtualBox-7.2.22-0070C0?style=flat-square)
 ![Guest](https://img.shields.io/badge/Kali%20Linux-2026.3-E87500?style=flat-square&logo=kalilinux&logoColor=white)
 ![Network](https://img.shields.io/badge/Network-NAT%20Network-238F89?style=flat-square)
-![Program](https://img.shields.io/badge/NetworkWalks-B083-404040?style=flat-square)
+![Program](https://img.shields.io/badge/NetworkWalks-B084-404040?style=flat-square)
 
 ---
 
@@ -384,7 +384,7 @@ This section is a reference for others building the same lab on Arch Linux. It l
 ## Author
 
 **Teddy (F4ZZIE)**
-Cybersecurity learner, NetworkWalks Batch B083
+Cybersecurity learner, NetworkWalks Batch B084
 GitHub: https://github.com/f4zzie
 
-**Program:** Cybersecurity at NetworkWalks | **Batch:** B083 | **Week:** 01 | **Project:** PM1, Cybersecurity Lab Setup | **Completed:** October 27, 2026
+**Program:** Cybersecurity at NetworkWalks | **Batch:** B084 | **Week:** 01 | **Project:** PM1, Cybersecurity Lab Setup | **Completed:** October 27, 2026
