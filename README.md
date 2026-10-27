@@ -1,4 +1,4 @@
-# Cybersecurity Lab Environment Setup
+# NetworkWalks Cybersecurity Internship: Lab Environment Setup (Week 1)
 
 **An isolated virtual lab for ethical hacking and penetration-testing practice, built with VirtualBox and Kali Linux on an Arch Linux host.**
 
@@ -7,7 +7,7 @@
 ![Hypervisor](https://img.shields.io/badge/VirtualBox-7.2.22-0070C0?style=flat-square)
 ![Guest](https://img.shields.io/badge/Kali%20Linux-2026.3-E87500?style=flat-square&logo=kalilinux&logoColor=white)
 ![Network](https://img.shields.io/badge/Network-NAT%20Network-238F89?style=flat-square)
-![Program](https://img.shields.io/badge/NetworkWalks-B084-404040?style=flat-square)
+![Program](https://img.shields.io/badge/NetworkWalks%20Internship-B084-404040?style=flat-square)
 
 ---
 
@@ -33,7 +33,7 @@
 
 ## Project Overview
 
-This project documents the construction of a virtual cybersecurity laboratory on my own computer. The lab uses VirtualBox as the hypervisor and Kali Linux as the attacker machine, connected through a dedicated private virtual network.
+This project is my Week 1 deliverable for the NetworkWalks Cybersecurity Internship. This project documents the construction of a virtual cybersecurity laboratory on my own computer. The lab uses VirtualBox as the hypervisor and Kali Linux as the attacker machine, connected through a dedicated private virtual network.
 
 The aim is to have a controlled, repeatable environment where security tools can be run safely. Reconnaissance, scanning, vulnerability assessment and later exploitation exercises all happen inside the lab, and no real or third-party systems are involved. Because the lab sits on its own virtual network, additional machines (for example deliberately vulnerable targets) can be added in later projects without rebuilding anything.
 
@@ -384,7 +384,7 @@ This section is a reference for others building the same lab on Arch Linux. It l
 ## Author
 
 **Teddy (F4ZZIE)**
-Cybersecurity learner, NetworkWalks Batch B084
+Cybersecurity intern, NetworkWalks Batch B084
 GitHub: https://github.com/f4zzie
 
-**Program:** Cybersecurity at NetworkWalks | **Batch:** B084 | **Week:** 01 | **Project:** PM1, Cybersecurity Lab Setup | **Completed:** October 27, 2026
+**Program:** Cybersecurity Internship at NetworkWalks | **Batch:** B084 | **Week:** 01 | **Project:** PM1, Cybersecurity Lab Setup | **Completed:** October 27, 2026
