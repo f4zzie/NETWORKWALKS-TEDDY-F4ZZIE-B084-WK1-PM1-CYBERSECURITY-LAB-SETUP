@@ -66,14 +66,8 @@ This laboratory is built for education and authorized security testing only.
 
 ## Lab Architecture
 
-<!-- >>> SCREENSHOT 1 (architecture diagram) GOES HERE <<<
-     Draw a simple diagram in draw.io or Excalidraw and export as PNG.
-     Show: Arch Linux host -> VirtualBox -> NAT Network "NatNetwork" 10.0.0.0/24 -> Kali Linux VM 10.0.0.2.
-     Add a dashed box labelled "Future target VMs" on the same network, and an arrow from the NAT Network to the Internet.
-     Save as: 1-screenshot-title-image.png -->
-![Lab architecture diagram](1-screenshot-title-image.png)
 
-The diagram above shows the layout of the lab. The same relationships in text form:
+The text diagram below shows the layout of the lab:
 
 ```
                     Internet
@@ -146,11 +140,6 @@ On Arch Linux, VirtualBox needs kernel modules that match the running kernel. Fo
 sudo pacman -S virtualbox virtualbox-host-modules-arch
 ```
 
-For other kernels (LTS, Zen, Hardened), the DKMS package and the matching headers are required instead:
-
-```bash
-sudo pacman -S virtualbox virtualbox-host-dkms linux-lts-headers
-```
 
 The kernel module was then loaded and my user was added to the `vboxusers` group, followed by a logout and login so the group change took effect:
 
@@ -167,13 +156,7 @@ lsmod | grep vbox
 groups
 ```
 
-Result: VirtualBox 7.2.22 reported its version, the `vboxdrv`, `vboxnetflt` and `vboxnetadp` modules were loaded, and `vboxusers` appeared in my group list.
-
-<!-- >>> OPTIONAL SCREENSHOT 5 GOES HERE <<<
-     Screenshot of the Arch terminal showing the output of: vboxmanage --version, lsmod | grep vbox, groups
-     Save as: 5-screenshot-virtualbox-install.png
-     (If you skip it, delete the next line.) -->
-![VirtualBox installed on the Arch Linux host](5-screenshot-virtualbox-install.png)
+![VirtualBox installation verification on the Arch Linux host](image.png)
 
 ### Step 2. Download, verify and extract the Kali Linux image
 
@@ -195,20 +178,9 @@ The extracted folder contains the `.vbox` machine definition and the `.vdi` virt
 
 ### Step 3. Create the NAT Network
 
-A dedicated NAT Network was created before importing the VM so that the VM could be attached to it straight away:
+The settings can be reviewed in the VirtualBox GUI under the Network manager, on the NAT Networks tab.
 
-```bash
-VBoxManage natnetwork add --netname NatNetwork --network "10.0.0.0/24" --enable --dhcp on
-VBoxManage list natnetworks
-```
-
-The same settings can be reviewed in the VirtualBox GUI under the Network manager, on the NAT Networks tab.
-
-<!-- >>> SCREENSHOT 2 GOES HERE <<<
-     VirtualBox GUI -> Tools -> Network -> "NAT Networks" tab -> click NatNetwork.
-     The name, the prefix 10.0.0.0/24 and the DHCP checkbox must all be visible.
-     Save as: 2-screenshot-network-settings-1.png -->
-![VirtualBox NAT Network settings](2-screenshot-network-settings-1.png)
+![VirtualBox NAT Network configuration](image-1.png)
 
 A NAT Network was chosen instead of plain NAT for an important reason. Virtual machines on plain NAT are isolated from each other and can only reach the internet. Virtual machines attached to the same NAT Network can communicate with one another and still reach the internet through address translation. This is what makes the lab extensible: attacker and target machines can be placed on the same network later.
 
@@ -223,12 +195,7 @@ Using the VirtualBox GUI:
    - Network, Adapter 1: Enable Network Adapter, Attached to NAT Network, Name NatNetwork, and under Advanced the adapter type Intel PRO/1000 MT Desktop (82540EM).
 3. Start the VM and sign in with the default credentials published on the Kali download page.
 
-<!-- >>> SCREENSHOT 3 GOES HERE <<<
-     The Kali desktop running, with the VirtualBox window visible
-     (ideally the window title showing the VM name and "Running").
-     Take it from the Arch host so the VirtualBox frame is included.
-     Save as: 3-screenshot-kali-linux.png -->
-![Kali Linux running in VirtualBox](3-screenshot-kali-linux.png)
+![Kali Linux virtual machine running in VirtualBox](image-2.png)
 
 ### Step 5. Configure the Kali network
 
@@ -251,11 +218,7 @@ sudo nmcli connection up "Wired connection 1"
 
 The connection name (`Wired connection 1`) can differ between systems, so it should be confirmed with `nmcli connection show` before running the commands above.
 
-<!-- >>> SCREENSHOT 4 GOES HERE <<<
-     Terminal inside Kali showing the output of both: ip a   and   ip route
-     The address 10.0.0.2/24 and the default route via 10.0.0.1 must both be visible.
-     Save as: 4-screenshot-kali-network-settings.png -->
-![Kali network configuration](4-screenshot-kali-network-settings.png)
+![Kali Linux IP address and routing configuration](image-3.png)
 
 ### Step 6. Create a clean snapshot
 
@@ -266,11 +229,6 @@ After the configuration was complete and verified, the VM was shut down cleanly 
 
 The snapshot is the known-good baseline of the laboratory. If a later exercise breaks or contaminates the VM, it can be restored to this state in seconds.
 
-<!-- >>> OPTIONAL SCREENSHOT 6 GOES HERE <<<
-     VirtualBox -> Kali VM -> Snapshots tab showing "Clean Kali - Network Setup".
-     Save as: 6-screenshot-snapshot.png
-     (If you skip it, delete the next line.) -->
-![Clean baseline snapshot](6-screenshot-snapshot.png)
 
 ---
 
@@ -290,41 +248,21 @@ Each part of the lab was tested after configuration.
 
 ### Actual results
 
-<!-- >>> PASTE YOUR REAL OUTPUT BELOW <<<
-     Replace each [REPLACE ...] with the actual text printed in your Kali terminal.
-     Do not invent output. Copy exactly what your commands printed. -->
-
 Gateway test:
 
-```
-[REPLACE: paste the output of  ping -c 3 10.0.0.1]
-```
+![Successful ping test to the NAT Network gateway](image-4.png)
 
 Internet test:
 
-```
-[REPLACE: paste the output of  ping -c 3 8.8.8.8]
-```
+![Successful internet connectivity test](image-5.png)
 
 DNS test:
 
-```
-[REPLACE: paste the output of  nslookup networkwalks.com]
-```
+![Successful DNS resolution test](image-6.png)
 
 Tool check:
 
-```
-[REPLACE: paste the output of  nmap --version]
-```
-
-Snapshot restore test: [REPLACE: one sentence on what you changed, that the restore removed it, and that the IP configuration was still correct afterwards.]
-
-<!-- >>> OPTIONAL SCREENSHOT 7 GOES HERE <<<
-     One terminal screenshot in Kali showing the ping and nslookup results together.
-     Save as: 7-screenshot-verification.png
-     (If you skip it, delete the next line.) -->
-![Connectivity verification inside Kali](7-screenshot-verification.png)
+![Nmap version verification](image-7.png)
 
 ---
 
@@ -414,13 +352,14 @@ This section is a reference for others building the same lab on Arch Linux. It l
 | File | Description |
 |---|---|
 | `README.md` | Full documentation of the lab build |
-| `1-screenshot-title-image.png` | Lab architecture diagram |
-| `2-screenshot-network-settings-1.png` | VirtualBox NAT Network settings |
-| `3-screenshot-kali-linux.png` | Kali Linux running in VirtualBox |
-| `4-screenshot-kali-network-settings.png` | Kali IP address and routing configuration |
-| `5-screenshot-virtualbox-install.png` | VirtualBox installation check on the host (optional) |
-| `6-screenshot-snapshot.png` | Clean baseline snapshot (optional) |
-| `7-screenshot-verification.png` | Connectivity verification output (optional) |
+| `image.png` | VirtualBox installation check on the host |
+| `image-1.png` | VirtualBox NAT Network settings |
+| `image-2.png` | Kali Linux running in VirtualBox |
+| `image-3.png` | Kali IP address and routing configuration |
+| `image-4.png` | NAT Network gateway connectivity test |
+| `image-5.png` | Internet connectivity test |
+| `image-6.png` | DNS resolution test |
+| `image-7.png` | Nmap version check |
 
 ---
 
