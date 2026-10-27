@@ -278,33 +278,42 @@ Tool check:
 
 ## Problems Encountered and Solutions
 
-<!-- >>> WRITE ONLY REAL PROBLEMS YOU ACTUALLY HIT <<<
-     Copy this block once per problem. Use the exact error message you saw.
-     If you genuinely had no problems, delete the blocks below and use the "no issues" sentence
-     at the bottom of this section instead. Never describe a problem that did not happen to you.
-     Whatever you write here, post the same text as a comment on the week's YouTube project video. -->
+### Problem 1. VirtualBox host driver and user access were not active
 
-### Problem 1. [REPLACE: short title]
+**Symptom:** VirtualBox was installed, but the VM could not be used until the host driver was loaded and the current user had VirtualBox access. I did not retain the exact error message, so I verified the problem through the kernel-module and group checks instead.
 
-**Symptom:** [REPLACE: what happened, including the exact error message]
+**Cause:** On Arch Linux, VirtualBox requires kernel modules that match the running kernel. The current user must also belong to the `vboxusers` group, and a new login session is required before that membership becomes active.
 
-**Cause:** [REPLACE: what the actual cause turned out to be]
-
-**Solution:** [REPLACE: the exact steps or commands that fixed it]
+**Solution:** I installed the matching host-module package, loaded `vboxdrv`, added my account to `vboxusers`, and then logged out and back in. I confirmed the fix by checking the VirtualBox version, loaded modules and group membership.
 
 ```bash
-[REPLACE: commands used, if any]
+sudo pacman -S virtualbox virtualbox-host-modules-arch
+sudo modprobe vboxdrv
+sudo usermod -aG vboxusers $USER
+vboxmanage --version
+lsmod | grep vbox
+groups
 ```
 
-### Problem 2. [REPLACE or delete this block]
+### Problem 2. Kali received a DHCP address instead of the planned static address
 
-**Symptom:** [REPLACE]
+**Symptom:** The initial `ip a` output showed `10.0.0.3/24` and marked the address as `dynamic`, while the lab plan reserved `10.0.0.2/24` for Kali.
 
-**Cause:** [REPLACE]
+**Cause:** The imported Kali network profile was still using automatic IPv4 configuration, and DHCP was enabled on `NatNetwork`.
 
-**Solution:** [REPLACE]
+**Solution:** I identified the active NetworkManager connection, changed it to manual IPv4 configuration, assigned `10.0.0.2/24`, and reactivated the connection. I then checked the address and default route again.
 
-> If no problems occurred, replace this section's contents with: "No blocking issues were encountered during this project. The Arch Linux specific points that required care (kernel module package, `vboxusers` group membership and re-login) are listed in the next section."
+```bash
+nmcli connection show
+sudo nmcli connection modify "Wired connection 1" \
+  ipv4.method manual \
+  ipv4.addresses 10.0.0.2/24 \
+  ipv4.gateway 10.0.0.1 \
+  ipv4.dns 8.8.8.8
+sudo nmcli connection up "Wired connection 1"
+ip a
+ip route
+```
 
 ---
 
